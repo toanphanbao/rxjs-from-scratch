@@ -1,0 +1,22 @@
+{
+  "name": "rxjs-from-scratch",
+  "version": "1.0.0",
+  "description": "build a simple rxjs library from scratch",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toanphanbao/rxjs-from-scratch.git"
+  },
+  "author": "Toan Phan Bao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toanphanbao/rxjs-from-scratch/issues"
+  },
+  "homepage": "https://github.com/toanphanbao/rxjs-from-scratch#readme",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
