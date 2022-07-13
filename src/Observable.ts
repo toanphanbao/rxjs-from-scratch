@@ -1,21 +1,23 @@
+import { Observer } from './Observer';
 import { Subscription } from './Subscription';
 
 export class Observable {
-    waitToRun: Function;
+    waitToRun: (observer: Observer) => Subscription;
 
-    constructor(waitToRun: Function) {
+    constructor(waitToRun: (observer: Observer) => Subscription) {
         this.waitToRun = waitToRun;
     }
 
     static timeout = (miliseconds: number): Observable => {
-        const waitToRun = (next: Function): Subscription => {
+        const waitToRun = (observer: Observer): Subscription => {
             const timeoutId = setTimeout(() => {
-                next();
+                observer.next();
+                observer.complete();
             }, miliseconds);
 
             return new Subscription(() => {
                 clearTimeout(timeoutId);
-                console.log('unsubscribed timeout');
+                console.log('unsubscribed Timeout Observables');
             });
         };
 
@@ -23,22 +25,26 @@ export class Observable {
     }
 
     static interval = (miliseconds: number): Observable => {
-        const waitToRun = (next: Function) => {
+        const waitToRun = (observer: Observer): Subscription => {
             const intervalId = setInterval(() => {
-                next();
+                try {
+                    observer.next();
+                } catch (error) {
+                    observer.error(error);
+                }
             }, miliseconds);
 
             return new Subscription(() => {
                 clearInterval(intervalId);
-                console.log('unsubscribed interval');
+                console.log('unsubscribed Interval Observable');
             });
         };
 
         return new Observable(waitToRun);
     }
 
-    subscribe = (next: Function): Subscription => {
-        const subscription = this.waitToRun(next);
+    subscribe = (observer: Observer): Subscription => {
+        const subscription = this.waitToRun(observer);
 
         return subscription;
     }
